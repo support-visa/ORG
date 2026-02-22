@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Humanitarian Visa Application</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:'Vazirmatn',sans-serif;
+}
+
+body{
+background:#f1f4f8;
+padding:20px;
+transition:0.3s;
+}
+
+.header{
+background:#002664;
+color:white;
+padding:20px;
+border-radius:8px 8px 0 0;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:relative;
+}
+
+.header h1{
+font-size:18px;
+font-weight:600;
+}
+
+.lang-select{
+position:absolute;
+top:20px;
+left:20px;
+}
+
+select{
+padding:6px 10px;
+border-radius:4px;
+border:none;
+font-size:13px;
+}
+
+.reference{
+font-size:13px;
+}
+
+.container{
+background:white;
+max-width:1000px;
+margin:auto;
+border-radius:0 0 10px 10px;
+box-shadow:0 8px 25px rgba(0,0,0,0.08);
+padding:40px;
+}
+
+.progress{
+display:flex;
+justify-content:space-between;
+margin-bottom:40px;
+position:relative;
+}
+
+.progress::before{
+content:'';
+position:absolute;
+top:50%;
+right:0;
+left:0;
+height:4px;
+background:#dce1ea;
+z-index:0;
+}
+
+.step{
+width:40px;
+height:40px;
+background:white;
+border:3px solid #dce1ea;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:1;
+font-weight:600;
+color:#7a869a;
+}
+
+.step.active{
+border-color:#002664;
+color:#002664;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:18px;
+}
+
+input,textarea{
+padding:12px;
+border:1px solid #ccd2dc;
+border-radius:6px;
+background:#f9fbfd;
+font-size:14px;
+transition:0.3s;
+}
+
+input:focus, textarea:focus{
+outline:none;
+border-color:#002664;
+background:white;
+box-shadow:0 0 0 3px rgba(0,38,100,0.1);
+}
+
+textarea{
+resize:none;
+min-height:80px;
+}
+
+.section{display:none;}
+.section.active{display:block;}
+
+.buttons{text-align:left;margin-top:30px;}
+
+button{
+padding:12px 35px;
+border:none;
+border-radius:5px;
+font-weight:500;
+cursor:pointer;
+transition:0.3s;
+}
+
+.next{background:#002664;color:white;}
+.submit{background:#006c35;color:white;}
+
+button:disabled{
+background:#c4c9d4;
+cursor:not-allowed;
+}
+
+@media(max-width:768px){
+.container{padding:25px;}
+button{width:100%;margin-top:10px;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<h1 id="title">فرم درخواست ویزای بشردوستانه</h1>
+
+<div class="lang-select">
+<select id="languageSwitcher">
+<option value="fa">فارسی</option>
+<option value="en">English</option>
+<option value="ps">پښتو</option>
+</select>
+</div>
+
+<div class="reference">
+<span id="ref"></span>
+</div>
+</div>
+
+<div class="container">
+<div class="progress">
+<div class="step active">1</div>
+<div class="step">2</div>
+</div>
+
+<form id="form">
+
+<div class="section active" id="sec1">
+<div class="grid">
+<input required data-key="firstName">
+<input required data-key="lastName">
+<input required data-key="dob" type="date">
+<input required data-key="birthPlace">
+<input required data-key="nationality">
+<input required data-key="passport">
+<input required data-key="address">
+<input required data-key="phone">
+<input required data-key="email" type="email">
+<input required data-key="marital">
+<input required data-key="children">
+<input required data-key="job">
+<input required data-key="education">
+<input required data-key="languages">
+<input required data-key="religion">
+<input required data-key="ethnicity">
+<input required data-key="idNumber">
+<input required data-key="countryResidence">
+<input required data-key="passportIssue">
+<input required data-key="passportExpiry">
+</div>
+<div class="buttons">
+<button type="button" class="next" id="nextBtn">Next</button>
+</div>
+</div>
+
+<div class="section" id="sec2">
+<div class="grid">
+<textarea required data-key="reason"></textarea>
+<textarea required data-key="threat"></textarea>
+<textarea required data-key="security"></textarea>
+<input required data-key="previousVisa">
+<input required data-key="travelHistory">
+<input required data-key="sponsorName">
+<input required data-key="sponsorContact">
+<input required data-key="sponsorAddress">
+<input required data-key="relation">
+<input required data-key="supportDocs">
+<input required data-key="health">
+<input required data-key="criminal">
+<input required data-key="organization">
+<input required data-key="departureDate">
+<input required data-key="familyWith">
+<input required data-key="familyCount">
+<input required data-key="specialNeeds">
+<input required data-key="skills">
+<input required data-key="income">
+<textarea required data-key="extra"></textarea>
+</div>
+<div class="buttons">
+<button type="submit" class="submit">Submit</button>
+</div>
+</div>
+
+</form>
+</div>
+
+<script>
+const translations={
+fa:{title:"فرم درخواست ویزای بشردوستانه",
+firstName:"نام",
+lastName:"نام خانوادگی",
+dob:"تاریخ تولد",
+birthPlace:"محل تولد",
+nationality:"ملیت",
+passport:"شماره پاسپورت",
+address:"آدرس",
+phone:"شماره تماس",
+email:"ایمیل",
+marital:"وضعیت تأهل",
+children:"تعداد فرزندان",
+job:"شغل",
+education:"تحصیلات",
+languages:"زبان‌ها",
+religion:"دین",
+ethnicity:"قومیت",
+idNumber:"شماره تذکره",
+countryResidence:"کشور محل اقامت",
+passportIssue:"تاریخ صدور پاسپورت",
+passportExpiry:"تاریخ انقضا پاسپورت",
+reason:"دلیل درخواست",
+threat:"شرح تهدید",
+security:"مشکلات امنیتی",
+previousVisa:"درخواست قبلی ویزا",
+travelHistory:"کشورهای سفر",
+sponsorName:"نام اسپانسر",
+sponsorContact:"تماس اسپانسر",
+sponsorAddress:"آدرس اسپانسر",
+relation:"نسبت",
+supportDocs:"مدارک حمایتی",
+health:"وضعیت صحی",
+criminal:"سوء پیشینه",
+organization:"عضویت سازمان",
+departureDate:"تاریخ ترک کشور",
+familyWith:"خانواده همراه",
+familyCount:"تعداد همراهان",
+specialNeeds:"نیاز خاص",
+skills:"مهارت‌ها",
+income:"منبع درآمد",
+extra:"توضیحات اضافی"
+},
+en:{title:"Humanitarian Visa Application Form",
+firstName:"First Name",
+lastName:"Last Name",
+dob:"Date of Birth",
+birthPlace:"Place of Birth",
+nationality:"Nationality",
+passport:"Passport Number",
+address:"Full Address",
+phone:"Phone Number",
+email:"Email",
+marital:"Marital Status",
+children:"Number of Children",
+job:"Occupation",
+education:"Education Level",
+languages:"Languages Spoken",
+religion:"Religion",
+ethnicity:"Ethnicity",
+idNumber:"National ID",
+countryResidence:"Country of Residence",
+passportIssue:"Passport Issue Date",
+passportExpiry:"Passport Expiry Date",
+reason:"Reason for Application",
+threat:"Describe Threat",
+security:"Security Issues",
+previousVisa:"Previous Visa Application",
+travelHistory:"Travel History",
+sponsorName:"Sponsor Name",
+sponsorContact:"Sponsor Contact",
+sponsorAddress:"Sponsor Address",
+relation:"Relationship",
+supportDocs:"Supporting Documents",
+health:"Health Status",
+criminal:"Criminal Record",
+organization:"Organization Membership",
+departureDate:"Departure Date",
+familyWith:"Family Accompanying",
+familyCount:"Number of Family Members",
+specialNeeds:"Special Needs",
+skills:"Skills",
+income:"Income Source",
+extra:"Additional Notes"
+},
+ps:{title:"د بشري ویزې غوښتنلیک فورم",
+firstName:"نوم",
+lastName:"تخلص",
+dob:"د زیږون نیټه",
+birthPlace:"د زیږون ځای",
+nationality:"ملیت",
+passport:"د پاسپورټ شمېره",
+address:"پته",
+phone:"د تلیفون شمېره",
+email:"بریښنالیک",
+marital:"مدني حالت",
+children:"د ماشومانو شمېر",
+job:"دنده",
+education:"تعلیم",
+languages:"ژبې",
+religion:"مذهب",
+ethnicity:"قوم",
+idNumber:"تذکره شمېره",
+countryResidence:"د اوسېدو هیواد",
+passportIssue:"د پاسپورټ د صادرېدو نیټه",
+passportExpiry:"د پاسپورټ د ختمېدو نیټه",
+reason:"د غوښتنې دلیل",
+threat:"د ګواښ تشریح",
+security:"امنیتي ستونزې",
+previousVisa:"پخوانی ویزه غوښتنلیک",
+travelHistory:"د سفر تاریخچه",
+sponsorName:"د سپانسر نوم",
+sponsorContact:"د سپانسر اړیکه",
+sponsorAddress:"د سپانسر پته",
+relation:"اړیکه",
+supportDocs:"ملاتړ اسناد",
+health:"روغتیايي حالت",
+criminal:"جرمي سابقه",
+organization:"د سازمان غړیتوب",
+departureDate:"د وتلو نیټه",
+familyWith:"کورنۍ مل ده؟",
+familyCount:"د کورنۍ شمېر",
+specialNeeds:"ځانګړي اړتیاوې",
+skills:"مهارتونه",
+income:"د عاید سرچینه",
+extra:"اضافي معلومات"
+}
+};
+
+const switcher=document.getElementById("languageSwitcher");
+
+function setLanguage(lang){
+document.documentElement.lang=lang;
+document.documentElement.dir=(lang==="en")?"ltr":"rtl";
+document.getElementById("title").innerText=translations[lang].title;
+
+document.querySelectorAll("[data-key]").forEach(el=>{
+el.placeholder=translations[lang][el.dataset.key];
+});
+}
+
+switcher.addEventListener("change",(e)=>{
+setLanguage(e.target.value);
+});
+
+setLanguage("fa");
+</script>
+
+</body>
+</html>
